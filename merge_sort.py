@@ -100,7 +100,7 @@ def sort_using_merging(unsorted_list_sample):
 
 
 unsorted_list_random = []
-for i in range(4096*4):
+for i in range(256):
     unsorted_list_random.append(random.randint(2000, 694387))
 print(sort_using_merging(unsorted_list_random))
 
