@@ -15,10 +15,7 @@ class Human:
 def is_lower(potentially_lower, potentially_higher):
     if type(potentially_lower) is Human and type(potentially_higher) is Human:
         return potentially_lower.age - potentially_higher.age < 0
-    if potentially_lower < potentially_higher:
-        return True
-    else:
-        return False
+    return potentially_lower - potentially_higher > 0
 
 
 def is_equal(number1, number2):
