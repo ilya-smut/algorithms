@@ -17,59 +17,6 @@ class Node:
     def has_a_child(self):
         return self.first_child is not None
 
-
-def check_existence_of_the_layer(working_node, number_of_steps):
-    node_in_process = working_node
-    if number_of_steps == 0:
-        return True
-    for i in range(number_of_steps):
-        if node_in_process.has_a_child():
-            node_in_process = node_in_process.first_child
-        else:
-            return False
-    return node_in_process.has_a_child()
-
-
-def bfs_traversal(head_of_the_tree):
-    number_of_steps = 0
-
-    if not head_of_the_tree.is_head():
-        return None
-
-    def go_one_layer(working_node):
-        while True:
-            working_node.print_key()
-            if working_node.has_next_sibling():
-                working_node = working_node.next_sibling
-            elif working_node.parent.has_next_sibling():
-                if working_node.parent.next_sibling.has_a_child():
-                    working_node = working_node.parent.next_sibling.first_child
-            elif not working_node.parent.has_next_sibling():
-                    break
-        return working_node
-
-    head_of_the_tree.print_key()
-    current_node = head_of_the_tree.first_child
-
-    while check_existence_of_the_layer(head_of_the_tree, number_of_steps):
-        go_one_layer(current_node)
-        number_of_steps += 1
-        current_node = current_node.first_child
-
-
-def BFS_traversal_recursive(starting_node):
-    starting_node.print_key()
-    if starting_node.parent is None:
-        return BFS_traversal_recursive(starting_node.first_child)
-    if starting_node.has_next_sibling():
-        return BFS_traversal_recursive(starting_node.next_sibling)
-    if starting_node.parent.has_next_sibling():
-        if starting_node.parent.next_sibling.has_a_child():
-            return BFS_traversal_recursive(starting_node.parent.next_sibling.first_child)
-    if starting_node.parent.first_child.has_a_child():
-        return BFS_traversal_recursive(starting_node.parent.first_child.first_child)
-
-
 def preorder_traversal_recursive(starting_node):
     starting_node.print_key()
     if starting_node.has_a_child():
@@ -97,6 +44,14 @@ def preorder_traversal(starting_node):
             break
 
 
+def postorder_traversal_recursive(starting_node):
+    if starting_node.has_a_child():
+        postorder_traversal_recursive(starting_node.first_child)
+    if starting_node.has_next_sibling():
+        starting_node.print_key()
+        postorder_traversal_recursive(starting_node.next_sibling)
+    else:
+        starting_node.print_key()
 
 
 
@@ -126,10 +81,10 @@ node_2_3.next_sibling = node_2_4
 node_2_5 = Node(node_1_3, None, None, '2_5')
 node_1_3.first_child = node_2_5
 
-bfs_traversal(head)
-print()
-BFS_traversal_recursive(head)
-print()
 preorder_traversal_recursive(head)
 print()
 preorder_traversal(head)
+print()
+postorder_traversal_recursive(head)
+print()
+
