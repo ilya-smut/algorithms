@@ -30,7 +30,7 @@ def check_existence_of_the_layer(working_node, number_of_steps):
     return node_in_process.has_a_child()
 
 
-def preorder_traversal(head_of_the_tree):
+def bfs_traversal(head_of_the_tree):
     number_of_steps = 0
 
     if not head_of_the_tree.is_head():
@@ -55,6 +55,49 @@ def preorder_traversal(head_of_the_tree):
         go_one_layer(current_node)
         number_of_steps += 1
         current_node = current_node.first_child
+
+
+def BFS_traversal_recursive(starting_node):
+    starting_node.print_key()
+    if starting_node.parent is None:
+        return BFS_traversal_recursive(starting_node.first_child)
+    if starting_node.has_next_sibling():
+        return BFS_traversal_recursive(starting_node.next_sibling)
+    if starting_node.parent.has_next_sibling():
+        if starting_node.parent.next_sibling.has_a_child():
+            return BFS_traversal_recursive(starting_node.parent.next_sibling.first_child)
+    if starting_node.parent.first_child.has_a_child():
+        return BFS_traversal_recursive(starting_node.parent.first_child.first_child)
+
+
+def preorder_traversal_recursive(starting_node):
+    starting_node.print_key()
+    if starting_node.has_a_child():
+        preorder_traversal_recursive(starting_node.first_child)
+    if starting_node.has_next_sibling():
+        preorder_traversal_recursive(starting_node.next_sibling)
+
+
+def preorder_traversal(starting_node):
+    current_node = starting_node
+    current_node.print_key()
+    flag = True
+    while True:
+        if current_node.has_a_child() and flag:
+            current_node = current_node.first_child
+            current_node.print_key()
+        elif current_node.has_next_sibling():
+            current_node = current_node.next_sibling
+            flag = True
+            current_node.print_key()
+        elif current_node.parent is not None:
+            current_node = current_node.parent
+            flag = False
+        elif current_node.parent is None:
+            break
+
+
+
 
 
 
@@ -83,5 +126,10 @@ node_2_3.next_sibling = node_2_4
 node_2_5 = Node(node_1_3, None, None, '2_5')
 node_1_3.first_child = node_2_5
 
+bfs_traversal(head)
+print()
+BFS_traversal_recursive(head)
+print()
+preorder_traversal_recursive(head)
+print()
 preorder_traversal(head)
-
